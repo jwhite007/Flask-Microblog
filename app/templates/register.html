@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+    <h1>Register</h1>
+    <form action="" method="post" name="register">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+        {{ form.hidden_tag() }}
+        <p>
+            User Name:<br>
+            {{form.username(size=80)}}
+        <p>
+            {% for message in form.email.errors %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+            Email:<br>
+            {{form.email(size=80)}}
+        <p>
+            Password:<br>
+            {{form.passwd(size=80)}}<br>
+        <p>
+            {% for message in form.passwd.errors %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+            Confirm Password:<br>
+            {{form.confirm(size=80)}}<br>
+        </p>
+        {# <p>{{form.remember_me}} Remember Me</p> #}
+        <p><input type="submit" value="Register"></p>
+    </form>
+{% endblock %}

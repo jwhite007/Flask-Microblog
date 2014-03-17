@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1>Sign In</h1>
+{% block body %}
+<h1>Log On</h1>
 <form action="" method="post" name="login">
-    {{form.hidden_tag()}}
+<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+    {{ form.hidden_tag() }}
     <p>
-        Please enter your OpenID:<br>
-        {{form.openid(size=80)}}<br>
+        {% for message in form.email.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+        Email:<br>
+        {{form.email(size=30)}}
+    <p>
+        Password:<br>
+        {{form.passwd(size=30)}}<br>
     </p>
-    <p>{{form.remember_me}} Remember Me</p>
-    <p><input type="submit" value="Sign In"></p>
+    {# <p>{{form.remember_me}} Remember Me</p> #}
+    <p><input type="submit" value="Log On"></p>
 </form>
 {% endblock %}
 

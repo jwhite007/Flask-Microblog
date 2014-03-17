@@ -1,1 +1,28 @@
-'this is where one adds posts'
+{% extends "base.html" %}
+
+{# {% block body %}
+<form method="POST" action="/">
+    {{ form.csrf_token }}
+    {{ form.name.label }} {{ form.name(size=20) }}
+    <input type="submit" value="Go">
+</form>
+{% endblock %} #}
+
+{% block body %}
+<h1>Add Post</h1>
+<form action="" method="post" name="login">
+<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+    {{ form.hidden_tag() }}
+    <p>
+        Title:<br>
+        {{form.post_title(size=80)}}<br>
+    <p>
+        Categories (please insert categories separated by commas):<br>
+        {{form.post_categories(size=80)}}<br>
+    <p>
+        Post:<br>
+        {{form.post(cols="100", rows="25")|safe}}<br>
+    </p>
+    <p><input type="submit" value="Create Post"></p>
+</form>
+{% endblock %}

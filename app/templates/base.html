@@ -1,9 +1,29 @@
 <!doctype html>
-<title>MicroBlog</title>
-<div class=page>
-  <h1>THE microBLOG: <a href="/index">Home</a></h1>
-  <a href="/add_post">Add Post</a>
-  <div class=metanav>
+<html>
+  <head>
+    <title>MicroBlog</title>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="logo">THE microBLOG</h1>
+        <div class="flashes">
+        {% for message in get_flashed_messages() %}
+          {{ message }}
+        {% endfor %}
+    </div>
+        <a href="{{ url_for('login') }}">Login</a><br />
+        <a href="{{ url_for('logout') }}">Logout</a><br />
+        <a href="{{ url_for('add_post') }}">Add Post</a><br />
+        <a href="{{ url_for('register') }}">Register</a>
+      </div>
+    </header>
+    <div class="container">
+      {% block body %}
+      {% endblock %}
+    </div>
+  </body>
+  </html>
   {# {% if not session.logged_in %}
     <a href="{{ url_for('login') }}">log in</a>
   {% else %}
@@ -13,5 +33,5 @@
   {% for message in get_flashed_messages() %}
     <div class=flash>{{ message }}</div>
   {% endfor % #}
-  {% block body %}{% endblock %}
+
 </div>

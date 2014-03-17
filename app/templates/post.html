@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+  <h1>{{post.title}}</h1>
+  {# <h1>Post1: {{post.title}}</h1> #}
+  <table>
+  {% for post in posts %}
+    <tr><th>{{post.author.username}}:</th><td><a href="{{ url_for() }}">{{ post.title }}</a></td></tr>
+  {% endfor %}
+  </table><br />
+{% endblock %}
