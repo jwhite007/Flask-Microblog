@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% block body %}
-  <h1>Posts:</h1>
+  {# <h1>Posts:</h1> #}
   {# <a href="{{ url_for('add_post') }}">Add Post</a><br />
   <a href="{{ url_for('register') }}">Register</a> #}
   {# <h1>Post1: {{post.title}}</h1> #}
-  <table>
+  <div>
+  <h1>Posts:</h1>
   {% for post in posts %}
     {# <tr><th>{{ post.title }}</th> #}
     {# <tr><th>{{post.id}}:</th><td><a href="{{ url_for('homepage') }}">{{ post.title }}</a></td></tr> #}
-    <tr><th>{{ post.title }}</th></tr>
-    <tr><th>{{ post.body }}</th></tr>
-    <tr><th>{{ post.user.username}}
+    <p>Title:  {{ post.title }}</p>
+    <p>Author:  {{ post.user.username}}</p>
+    <p>{{ post.body }}</p>--------
 
   {% endfor %}
-  </table><br />
+  </div><br />
 {% endblock %}

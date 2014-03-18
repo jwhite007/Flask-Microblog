@@ -144,10 +144,10 @@ def _sync_it():
     sudo('cp microblog_package/server_config/simple_nginx_config /etc/nginx/sites-available/default')
     sudo('cp microblog_package/server_config/gun_supervisor.conf /etc/supervisor/conf.d/')
     sudo('mkdir /var/www; mkdir /var/www/microblog')
-    # # sudo('ln -s microblog_package/app/static /var/www/microblog/')
     sudo('cp -r microblog_package/app/static /var/www/microblog/')
-    # sudo('cd microblog_package/ && python setup.py develop')
     sudo('pip install -r microblog_package/requirements.txt')
+    # sudo('ln -s microblog_package/app/static /var/www/microblog/')
+    # sudo('cd microblog_package/ && python setup.py develop')
 
 
 def sync_it():

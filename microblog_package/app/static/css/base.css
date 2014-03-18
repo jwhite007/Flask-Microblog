@@ -17,12 +17,33 @@ display: inline;
   position: fixed;
 }*/
 /*.nav { float: right;}*/
+/*.nav
+{
+    position: absolute;
+    top: 0;
+    bottom: 20%;
+    left: 0;
+    right: 100%;
+    z-index: -1;
+    overflow: hidden;
+    text-align: left;
+}*/
 .pages
+{
+    position: absolute;
+    top: 20%;
+    z-index: 1000;
+    display: block;
+    background-color: #f5f5f5;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+/*.pages
 {
 position:left;
 left:100px;
 top:150px;
-}
+}*/
 /*{
   float: left;
 }*/
