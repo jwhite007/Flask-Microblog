@@ -12,7 +12,8 @@ class RegistrationForm(SeaSurfForm):
                          [validators.Required()])
     # username = TextField('Username', [validators.Length(min=4, max=25)])
     email = TextField('Email Address',
-                      [validators.Length(min=6, max=35),
+                      # [validators.Length(min=6, max=35),
+                      [validators.Required(),
                        validators.Email("This is not a valid email address")])
     passwd = PasswordField('New Password',
                            [validators.Required(),
@@ -63,7 +64,7 @@ class LoginForm(SeaSurfForm):
 
 class AddPost(SeaSurfForm):
     post_title = TextField('Title', validators=[Required()])
-    post_categories = TextField('categories', validators=[Required()])
+    post_tags = TextField('categories', validators=[Required()])
     post = TextAreaField('Post', validators=[Required()])
 
     def validate(self):

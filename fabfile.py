@@ -123,7 +123,7 @@ def write_nginxconf():
     nginx_list.append('    server_name ' + addr + ';')
     nginx_list.append('    access_log  /var/log/nginx/test.log;\n')
     nginx_list.append('    location /static/ {')
-    nginx_list.append('    \troot /var/www/microBLOG/;')
+    nginx_list.append('    \troot /var/www/microblog/;')
     nginx_list.append('    \tautoindex off;')
     nginx_list.append('    }\n')
     nginx_list.append('    location / {')
@@ -134,19 +134,20 @@ def write_nginxconf():
     nginx_list.append('    }')
     nginx_list.append('}')
     nginx_config = '\n'.join(nginx_list)
-    with open('server_config/simple_nginx_config', 'w') as outfile:
+    with open('microblog_package/server_config/simple_nginx_config', 'w') as outfile:
             outfile.write(nginx_config)
 
 
 def _sync_it():
-    rsync_project('/home/ubuntu/', 'microBLOG')
+    rsync_project('/home/ubuntu/', 'microblog_package')
     sudo('mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig')
-    sudo('cp server_config/simple_nginx_config /etc/nginx/sites-available/default')
-    sudo('cp server_config/gun_supervisor.conf /etc/supervisor/conf.d/')
-    sudo('mkdir /var/www; mkdir /var/www/microBLOG')
-    # sudo('ln -s note-tagger_package/note_tagger/static /var/www/note-tagger/')
-    sudo('cp -r note-tagger_package/note_tagger/static /var/www/note-tagger/')
-    sudo('cd note-tagger_package/ && python setup.py develop')
+    sudo('cp microblog_package/server_config/simple_nginx_config /etc/nginx/sites-available/default')
+    sudo('cp microblog_package/server_config/gun_supervisor.conf /etc/supervisor/conf.d/')
+    sudo('mkdir /var/www; mkdir /var/www/microblog')
+    # # sudo('ln -s microblog_package/app/static /var/www/microblog/')
+    sudo('cp -r microblog_package/app/static /var/www/microblog/')
+    # sudo('cd microblog_package/ && python setup.py develop')
+    sudo('pip install -r microblog_package/requirements.txt')
 
 
 def sync_it():
@@ -154,12 +155,12 @@ def sync_it():
 
 
 def _install_dep():
-    sudo('apt-get -y install --fix-missing nginx')
-    sudo('apt-get -y install --fix-missing supervisor')
-    sudo('apt-get -y install --fix-missing gunicorn')
-    sudo('apt-get -y install --fix-missing python-pip')
-    sudo('pip install nltk')
-
+    sudo('apt-get -y install nginx')
+    sudo('apt-get -y install supervisor')
+    sudo('apt-get -y install gunicorn')
+    sudo('apt-get -y install python-pip')
+    sudo('apt-get -y install postgresql postgresql-contrib postgresql-dev')
+    sudo('apt-get install python-all-dev python-setuptools libpq-dev')
 
 
 def install_dep():
@@ -187,7 +188,7 @@ def deploy():
     install_dep()
     sync_it()
     start_server()
-    # get_info()
+    get_info()
 
 
 def get_info():

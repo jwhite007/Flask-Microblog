@@ -14,21 +14,8 @@ import random
 @app.route('/')
 @app.route('/index', endpoint='homepage')
 def show_posts():
-    posts = read_posts()
-    # return render_template('show_posts.html', posts=posts)
-    # posts = read_posts()
-    # posts = [
-    #     {
-    #         'author': {'username': 'James'},
-    #         'title': 'This is the title of Post 1'
-    #     },
-    #     {
-    #         'author': {'username': 'Puck'},
-    #         'title': 'This is the title of Post 2'
-    #     }
-    # ]
+    posts = get_posts()
     return render_template('show_posts.html', posts=posts)
-    # post = {'title': 'this is a post title'}
 
 
 @app.route('/register', methods=('GET', 'POST'))
@@ -64,7 +51,7 @@ def register():
 @app.route('/confirm/<reg_key>', methods=['GET', 'POST'])
 def confirm(reg_key):
     user = User.query.filter_by(reg_key=reg_key).first()
-    if user:
+    if user is not None:
         user.confirmed = True
         user.set_confirm_date()
         db.session.commit()
@@ -73,6 +60,7 @@ def confirm(reg_key):
         flash('You have been confirmed %s.  You can start posting to the microBLOG' % user.username)
         return redirect(url_for('homepage'))
     else:
+        # consider an error response in case someone is trying to crack.
         flash('Sorry.  That registration key does not exist')
         return redirect(url_for('homepage'))
 
@@ -94,11 +82,12 @@ def login():
                                form=form)
 
 
-def read_posts():
+def get_posts():
     return Post.query.all()
-# @app.route('/add_post')
-# def add_post():
-#     return render_template('add_post.html')
+
+
+def get_users():
+    return User.query.all()
 
 
 @app.route('/post/<int:post_id>')
@@ -122,13 +111,22 @@ def add_post():
                 # db.session.add(Tag('testing'))
                 # db.session.commit()
                 user = User.query.filter_by(email=session['email']).first()
-                # category_list = form.post_categories.data.split()
-                # category_list_final = [Category('testing')]
-                # for category in category_list:
-                #     if not Category.query.filter_by(name=category).first():
-                #         category_list_final.append(Category(category))
+                tag_list = form.post_tags.data.split(',')
+                tag_list2 = []
+                for tag in tag_list:
+                    tag_list2.append(tag.lstrip(' '))
+                tag_list_final = []
+                for tag in tag_list2:
+                    if not Tag.query.filter_by(name=tag).first():
+                        new_tag = Tag(tag)
+                        db.session.add(new_tag)
+                        db.session.commit()
+                        tag_list_final.append(new_tag)
+                    else:
+                        old_tag = Tag.query.filter_by(name=tag).first()
+                        tag_list_final.append(old_tag)
                 newpost = Post(form.post_title.data, form.post.data,
-                               [Tag('testing')], user.id)
+                               tag_list_final, user.id)
                 db.session.add(newpost)
                 db.session.commit()
                 return redirect(url_for('homepage'))
