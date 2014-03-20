@@ -55,9 +55,9 @@ def confirm(reg_key):
         user.confirmed = True
         user.set_confirm_date()
         db.session.commit()
-        session['email'] = user.email
+        # session['email'] = user.email
         # # flash(user.confirmed)
-        flash('You have been confirmed %s.  You can start posting to the microBLOG' % user.username)
+        flash('You have been confirmed, %s.  Login so that you can start posting to the microBLOG' % user.username)
         return redirect(url_for('homepage'))
     else:
         # consider an error response in case someone is trying to crack.
